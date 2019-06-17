@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <title>Chat Socket.IO</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i&display=swap&subset=vietnamese" rel="stylesheet">
+        <link rel="stylesheet" href="./css/main.css" />
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="group-list">
+                <div class="header">
+                    <img src="./images/user.png" />
+                    <h3 id="username"></h3>
+                </div>
+                <div class="search">
+                    <input type="text" id="search" placeholder="Tìm kiếm tin nhắn" />
+                </div>
+                <div class="list" id="rooms">
+                    <!-- <div class="group">
+                        <img src="./images/user.png" />
+                        <div class="info">
+                            <p>Ngọc Sơn</p>
+                            <span>Hello</span>
+                            <span class="time">10:45</span>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="chat-box">
+                <div class="header">
+                    <!-- <div class="info">
+                        <img src="./images/user.png" />
+                        <p>Ngọc Sơn</p>
+                    </div> -->
+                </div>
+                <div class="list" id="messages">
+                    <!-- <div class="message">
+                        <p>This is a generator for text fonts of the "cool" variety. I noticed people were trying to find a generator like fancy letters, but were ending up on actual font sites</p>
+                        <span>15:10</span>
+                    </div>
+                    <div class="message me">
+                        <p>This is a generator for text fonts of the "cool" variety.</p>
+                        <span>15:15</span>
+                    </div> -->
+                </div>
+                <div class="box">
+                    <input type="text" placeholder="Nhập tin nhắn" >
+                </div>
+            </div>
+        </div>
+    <!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+        <script src="vendor/bootstrap/js/popper.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="js/chat.js"></script>
+    </body>
+</html>

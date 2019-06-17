@@ -17,8 +17,13 @@ async function login(username, password) {
             console.error(dataLogin.data.data);
         }
 
-        console.log(dataLogin.data.data);
+        const returningData = dataLogin.data.data;
+        console.log(returningData);
+        const accessToken = returningData.access_token;
+        localStorage.setItem('access_token', accessToken);
+        window.location.href = '/chat.html';
     } catch (error) {
         console.error(error.response.data);
+        alert(error.response.data.message);
     }
 }
