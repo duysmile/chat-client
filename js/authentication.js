@@ -13,17 +13,17 @@ async function login(username, password) {
             username,
             password
         });   
-        if (!dataLogin.data.success) {
-            console.error(dataLogin.data.data);
-        }
 
         const returningData = dataLogin.data.data;
         console.log(returningData);
         const accessToken = returningData.access_token;
+        const dataAuthentication = JSON.parse(window.atob(accessToken.split('.')[1]));
         localStorage.setItem('access_token', accessToken);
+        localStorage.setItem('userId', dataAuthentication._id);
+        localStorage.setItem('userName', dataAuthentication.username);
         window.location.href = '/chat.html';
     } catch (error) {
-        console.error(error.response.data);
+        console.error(error);
         alert(error.response.data.message);
     }
 }

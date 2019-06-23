@@ -2,6 +2,7 @@
     <head>
         <title>Chat Socket.IO</title>
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i&display=swap&subset=vietnamese" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" />
         <link rel="stylesheet" href="./css/main.css" />
     </head>
     <body>
@@ -27,11 +28,17 @@
             </div>
             <div class="chat-box">
                 <div class="header">
-                    <!-- <div class="info">
-                        <img src="./images/user.png" />
-                        <p>Ngọc Sơn</p>
-                    </div> -->
+                    <div class="group-info">
+                        <!-- <div class="info">
+                            <img src="./images/user.png" />
+                            <p>Ngọc Sơn</p>
+                        </div> -->
+                    </div>
+                    <div class="log-out">
+                        <button id="btn-logout">Logout</button>
+                    </div>
                 </div>
+                
                 <div class="list" id="messages">
                     <!-- <div class="message">
                         <p>This is a generator for text fonts of the "cool" variety. I noticed people were trying to find a generator like fancy letters, but were ending up on actual font sites</p>
@@ -43,7 +50,9 @@
                     </div> -->
                 </div>
                 <div class="box">
-                    <input type="text" placeholder="Nhập tin nhắn" >
+                    <form>
+                        <input id="input-message" type="text" placeholder="Nhập tin nhắn" >
+                    </form>
                 </div>
             </div>
         </div>
@@ -53,7 +62,10 @@
         <script src="vendor/bootstrap/js/popper.js"></script>
         <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
     <!--===============================================================================================-->
+    <script src="js/socket-chat.js"></script>    
     <script src="js/chat.js"></script>
     </body>
 </html>
