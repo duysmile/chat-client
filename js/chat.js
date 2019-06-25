@@ -4,6 +4,7 @@ const LIMIT_PAGINATION = 10;
 let page = 1;
 
 $(document).ready(function() {
+    localStorage.setItem('listUserToChat', '');
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
         window.location.href = '/';
@@ -47,6 +48,59 @@ $(document).ready(function() {
         leading: true,
         trailing: true
     }));
+
+    $('#search-group').on('input', _.debounce(async function () {
+        const name = $(this).val();
+        await loadUsers(name, accessToken);
+    }, 500, {
+        // leading: true,
+        trailing: true
+    }));
+
+    $(document).on('click', '.dropdown-item', function() {
+        const username = $(this).text();
+        const userId = $(this).attr('data-user-id');
+        let listUserToChat = JSON.parse(!!localStorage.getItem('listUserToChat') ? localStorage.getItem('listUserToChat') : '[]');
+
+        listUserToChat.push(userId);
+        localStorage.setItem('listUserToChat', JSON.stringify(listUserToChat));
+        $('#list-users').append(`
+            <div class="alert alert-primary alert-user" data-user-id="${userId}">
+                <strong class="text-truncate">${username}</strong>
+                <button type="button" class="close mr-1" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        `);
+        $('#search-group').val('');
+        $('#dropdown-users').removeClass('show');
+    });
+
+    $(document).on('click', '[data-dismiss="alert"]', function() {
+        let listUserToChat = JSON.parse(!!localStorage.getItem('listUserToChat') ? localStorage.getItem('listUserToChat') : '[]');
+        const userId = $(this).parent().attr('data-user-id');
+        const indexUser = listUserToChat.indexOf(userId);
+        if (indexUser !== -1) {
+            listUserToChat.splice(indexUser, 1);
+        }
+        localStorage.setItem('listUserToChat', JSON.stringify(listUserToChat));
+    });
+
+    $('#close-popup').on('click', function() {
+        clearUsers();
+    });
+
+    $(document).on('click', '#start-chat', async function() {
+        const members = JSON.parse(localStorage.getItem('listUserToChat') || '[]');
+        
+        console.log(members);
+        clearUsers();
+        await createRoom(accessToken, members);
+    });
+
+    $('#addGroupModal').on('hidden.bs.modal', function () {
+        clearUsers();
+    })
 });
 
 async function loadRooms(accessToken, page = 1) {
@@ -100,21 +154,101 @@ async function loadMessages(roomId, accessToken, lastMessageId = '', limit = 10)
             </div>
         `;
     });
-    messages = messages.reverse();
-    if (!messages || messages.length === 0) {
-        $('#messages').off('scroll');
-        return;
+    const members = dataMessages.data.data.members;
+    let statusUser = '';
+    if (members.length === 1) {
+        statusUser = 'Online'
+    } else if (members.length === 2) {
+        statusUser = members.every(members => members.isOnline) ? 'Online' : 'Offline';
+    } else {
+        statusUser = members.some(members => members.isOnline) ? 'Online' : 'Offline';
     }
-
-    $('#messages').prepend(messages);
     $('.chat-box .header .group-info').html(`
         <div class="info">
             <img src="./images/user.png" />
             <p>${roomName}</p>
+            <small class="${statusUser === 'Online' ? 'text-success' : 'text-secondary'}">&nbsp;${statusUser}</small>
         </div>
     `);
+    if (!messages || messages.length === 0) {
+        $('#messages').off('scroll');
+        return;
+    }
+    messages = messages.reverse();
+    $('#messages').prepend(messages);
 }
+
+async function loadUsers(name, accessToken) {
+    const dataUsers = await axios.get(`http://localhost:3001/api/v1/users?page=${page}&limit=5&username=${name}`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    });
+    console.log(dataUsers);
+    let listUserToChat = JSON.parse(!!localStorage.getItem('listUserToChat') ? localStorage.getItem('listUserToChat') : '[]');
+
+    const users = dataUsers.data.data.reduce((res, user) => {
+        if (!listUserToChat.includes(user._id)) {
+            res.push(`
+                <a class="dropdown-item" href="javascript:void(0)" data-user-id="${user._id}">${user.username}</a>
+            `);
+        }
+        return res;
+    }, []);
+    if (users.length === 0) {
+
+    }
+    $('#dropdown-users').html(users);
+    
+    if (users.length === 0) {
+        $('#dropdown-users').removeClass('show'); 
+        return;    
+    } 
+    $('#dropdown-users').addClass('show'); 
+};
 
 function scrollToBottom() {
     $(".chat-box .list").animate({ scrollTop: $(".chat-box .list").height() }, 500);
+}
+
+function clearUsers() {
+    localStorage.setItem('listUserToChat', '');
+    $('#list-users').html('');
+}
+
+async function createRoom(accessToken, members) {
+    try {
+        const dataRooms = await axios.post(`http://localhost:3001/api/v1/rooms`, {
+            members
+        }, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+        console.log(dataRooms);
+        const room = dataRooms.data.data;
+        if ($('[data-room-id="' + room._id + '"]').length > 0) {
+            $('#addGroupModal').modal('hide');
+            return;
+        }
+        const rooms = `
+            <div class="group">
+                <img src="./images/user.png" />
+                <div class="info" data-room-id=${room._id}>
+                    <p>${room.name}</p>
+                    <div>
+                        <span class="content-msg text-truncate">${room.lastMessage ? room.lastMessage.content : '...'}</span>
+                        <span class="time">${new Date(room.createdAt).toLocaleString()}</span>
+                    </div>
+                </div>
+            </div>
+        `;;
+        if (!rooms || rooms.length === 0) {
+            $('#rooms').off('scroll');
+        }
+        $('#rooms').prepend(rooms);
+        $('#addGroupModal').modal('hide');
+    } catch (error) {
+        alert(error.response.data.message);
+    }
 }

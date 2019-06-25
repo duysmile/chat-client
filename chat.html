@@ -2,15 +2,22 @@
     <head>
         <title>Chat Socket.IO</title>
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i&display=swap&subset=vietnamese" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="./css/main.css" />
     </head>
     <body>
         <div class="wrapper">
             <div class="group-list">
                 <div class="header">
-                    <img src="./images/user.png" />
-                    <h3 id="username"></h3>
+                    <div class="d-flex align-items-center">
+                        <img src="./images/user.png" />
+                        <h3 id="username"></h3>
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGroupModal">
+                        +
+                    </button>
+                          
                 </div>
                 <div class="search">
                     <input type="text" id="search" placeholder="Tìm kiếm tin nhắn" />
@@ -51,8 +58,35 @@
                 </div>
                 <div class="box">
                     <form>
-                        <input id="input-message" type="text" placeholder="Nhập tin nhắn" >
+                        <input id="input-message" autocomplete="off" type="text" placeholder="Nhập tin nhắn" >
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add new group chat</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="search mx-3">
+                        <div id="list-users" class="d-flex">
+                            
+                        </div>
+                        <input class="w-100" type="text" id="search-group" placeholder="Nhập tên của một người hoặc nhóm" />
+                        <div class="dropdown-menu w-100" id="dropdown-users">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="close-popup" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="start-chat" class="btn btn-primary">Start chat</button>
+                </div>
                 </div>
             </div>
         </div>
