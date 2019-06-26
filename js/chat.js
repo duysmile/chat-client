@@ -5,6 +5,7 @@ let page = 1;
 
 $(document).ready(function() {
     localStorage.setItem('listUserToChat', '');
+    localStorage.setItem('listMembersToChat', '');
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
         window.location.href = '/';
@@ -155,19 +156,26 @@ async function loadMessages(roomId, accessToken, lastMessageId = '', limit = 10)
         `;
     });
     const members = dataMessages.data.data.members;
+    const author = dataMessages.data.data.author;
     let statusUser = '';
     if (members.length === 1) {
         statusUser = 'Online'
     } else if (members.length === 2) {
         statusUser = members.every(members => members.isOnline) ? 'Online' : 'Offline';
     } else {
-        statusUser = members.some(members => members.isOnline) ? 'Online' : 'Offline';
+        statusUser = members.some(members => {
+            if (members._id.toString() === author.toString()) {
+                return false;
+            }
+            return members.isOnline;
+        }) ? 'Online' : 'Offline';
     }
+    localStorage.setItem('listMembersToChat', JSON.stringify(members, null, 2));
     $('.chat-box .header .group-info').html(`
         <div class="info">
             <img src="./images/user.png" />
             <p>${roomName}</p>
-            <small class="${statusUser === 'Online' ? 'text-success' : 'text-secondary'}">&nbsp;${statusUser}</small>
+            &nbsp;<small id='status-room' class="${statusUser === 'Online' ? 'text-success' : 'text-secondary'}">${statusUser}</small>
         </div>
     `);
     if (!messages || messages.length === 0) {

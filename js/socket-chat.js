@@ -52,6 +52,38 @@ $(document).ready(function() {
                 return;
         }
     });
+
+    socket.on('status', function(data) {
+        const listMembers = JSON.parse(localStorage.getItem('listMembersToChat'));
+        switch(data.action) {
+            case 'ONLINE': {
+                const memberOnline = listMembers.find(member => member._id.toString() === data.data);
+                if (!!memberOnline) {
+                    memberOnline.isOnline = true;
+                    localStorage.setItem('listMembersToChat', JSON.stringify(listMembers, null, 2));
+                    $('#status-room').text('Online');
+                    $('#status-room').addClass('text-success');
+                    $('#status-room').removeClass('text-secondary');
+                }
+                break;
+            }
+            case 'OFFLINE': {
+                const membersOnline = listMembers.filter(member => member.isOnline);
+                const memberOnline = membersOnline.find(member => member._id.toString() === data.data);
+                if (!!memberOnline) {
+                    memberOnline.isOnline = false;
+                    localStorage.setItem('listMembersToChat', JSON.stringify(listMembers, null, 2));
+                    
+                    if (membersOnline.length === 2) {
+                        $('#status-room').text('Offline');
+                        $('#status-room').removeClass('text-success');
+                        $('#status-room').removeClass('text-secondary');
+                    }
+                }
+                break;
+            }
+        }
+    });
     
     let doneTypingTimer;
     let typingTimer;
