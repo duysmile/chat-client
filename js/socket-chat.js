@@ -20,9 +20,22 @@ $(document).ready(function() {
                         </div>
                     `);
                     scrollToBottom();
-                } else {
-
                 }
+                const roomIdFromServer = data.roomId;
+                const roomName = data.roomName;
+                $(`[data-room-id='${roomIdFromServer}']`).parent().remove();
+                const roomData = `
+                    <div class="group">
+                        <img src="./images/user.png" />
+                        <div class="info" data-room-id=${roomIdFromServer}>
+                            <p>${roomName}</p>
+                            <div>
+                                <span class="content-msg text-truncate font-weight-bold">${data.message.content}</span>
+                                <span class="time">${new Date(data.message.createdAt).toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </div>`;
+                $('#rooms').prepend(roomData);
                 return;
             }
             case 'RECEIVE_TYPING': {
@@ -89,6 +102,7 @@ $(document).ready(function() {
     let typingTimer;
     $('#input-message').on('input', function(event) {
         const roomId = localStorage.getItem('roomId');
+        $(`[data-room-id=${roomId}] .font-weight-bold`).removeClass('font-weight-bold');
         if (!typingTimer) {
             socket.emit('messages', {
                 roomId,

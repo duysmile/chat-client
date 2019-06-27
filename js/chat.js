@@ -6,6 +6,7 @@ let page = 1;
 $(document).ready(function() {
     localStorage.setItem('listUserToChat', '');
     localStorage.setItem('listMembersToChat', '');
+    localStorage.setItem('roomId', '');
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
         window.location.href = '/';
@@ -33,6 +34,8 @@ $(document).ready(function() {
                     $(".chat-box .list").animate({ scrollTop: 20 }, 500);
                 }
             }, 500));
+
+            $(`[data-room-id=${roomId}] .font-weight-bold`).removeClass('font-weight-bold');            
             scrollToBottom();
         });
     }).catch(err => {
