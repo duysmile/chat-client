@@ -9,7 +9,7 @@ $(document).ready(function() {
 
 async function login(username, password) {
     try {
-        const dataLogin = await axios.post('http://app-6b006f2d-41af-49ad-b2a8-8d0f739e8615.cleverapps.io/api/v1/login', {
+        const dataLogin = await axios.post('https://chat-app-api.cleverapps.io/api/v1/login', {
             username,
             password
         });   

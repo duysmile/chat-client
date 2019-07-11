@@ -1,4 +1,4 @@
-const SERVER_HOST = 'http://app-6b006f2d-41af-49ad-b2a8-8d0f739e8615.cleverapps.io/';
+const SERVER_HOST = 'https://chat-app-api.cleverapps.io/';
 const accessToken = localStorage.getItem('access_token');
 const socket = io(`${SERVER_HOST}?token=${accessToken}`);
 

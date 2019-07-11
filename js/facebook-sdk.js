@@ -23,7 +23,7 @@ function checkLoginState() {
     FB.getLoginStatus(async function(response) {
         alert('Login FB successfully.');
         const accessToken = response.authResponse.accessToken;
-        const resultLogin = await axios.post('http://app-6b006f2d-41af-49ad-b2a8-8d0f739e8615.cleverapps.io/api/v1/login/facebook', {
+        const resultLogin = await axios.post('https://chat-app-api.cleverapps.io/api/v1/login/facebook', {
             accessToken
         });
         console.log(resultLogin);

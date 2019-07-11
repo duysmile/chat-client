@@ -108,7 +108,7 @@ $(document).ready(function() {
 });
 
 async function loadRooms(accessToken, page = 1) {
-    const dataRooms = await axios.get(`http://app-6b006f2d-41af-49ad-b2a8-8d0f739e8615.cleverapps.io/api/v1/rooms?page=${page}&limit=10`, {
+    const dataRooms = await axios.get(`https://chat-app-api.cleverapps.io/api/v1/rooms?page=${page}&limit=10`, {
         headers: {
             Authorization: `Bearer ${accessToken}`
         }
@@ -135,7 +135,7 @@ async function loadRooms(accessToken, page = 1) {
 }
 
 async function loadMessages(roomId, accessToken, lastMessageId = '', limit = 10) {
-    const dataMessages = await axios.get(`http://app-6b006f2d-41af-49ad-b2a8-8d0f739e8615.cleverapps.io/api/v1/rooms/${roomId}?lastMessageId=${lastMessageId}&limit=${limit}`, {
+    const dataMessages = await axios.get(`https://chat-app-api.cleverapps.io/api/v1/rooms/${roomId}?lastMessageId=${lastMessageId}&limit=${limit}`, {
         headers: {
             Authorization: `Bearer ${accessToken}`
         }
@@ -190,7 +190,7 @@ async function loadMessages(roomId, accessToken, lastMessageId = '', limit = 10)
 }
 
 async function loadUsers(name, accessToken) {
-    const dataUsers = await axios.get(`http://app-6b006f2d-41af-49ad-b2a8-8d0f739e8615.cleverapps.io/api/v1/users?page=${page}&limit=5&username=${name}`, {
+    const dataUsers = await axios.get(`https://chat-app-api.cleverapps.io/api/v1/users?page=${page}&limit=5&username=${name}`, {
         headers: {
             Authorization: `Bearer ${accessToken}`
         }
@@ -229,7 +229,7 @@ function clearUsers() {
 
 async function createRoom(accessToken, members) {
     try {
-        const dataRooms = await axios.post(`http://app-6b006f2d-41af-49ad-b2a8-8d0f739e8615.cleverapps.io/api/v1/rooms`, {
+        const dataRooms = await axios.post(`https://chat-app-api.cleverapps.io/api/v1/rooms`, {
             members
         }, {
             headers: {
