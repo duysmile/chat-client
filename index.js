@@ -16,7 +16,7 @@ const server = require('http').Server(app);
 
 // const server = https.createServer(credentials, app);
 
-const port = process.env.PORT | 3005;
+const port = process.env.PORT || 3005;
 // load static file
 app.use(express.static('./'));
 
