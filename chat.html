@@ -3,6 +3,7 @@
         <title>Chat Socket.IO</title>
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i&display=swap&subset=vietnamese" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
         <link rel="stylesheet" href="./css/main.css" />
     </head>
     <body>
@@ -23,23 +24,11 @@
                     <input type="text" id="search" placeholder="Tìm kiếm tin nhắn" />
                 </div>
                 <div class="list" id="rooms">
-                    <!-- <div class="group">
-                        <img src="./images/user.png" />
-                        <div class="info">
-                            <p>Ngọc Sơn</p>
-                            <span>Hello</span>
-                            <span class="time">10:45</span>
-                        </div>
-                    </div> -->
                 </div>
             </div>
             <div class="chat-box">
                 <div class="header">
                     <div class="group-info">
-                        <!-- <div class="info">
-                            <img src="./images/user.png" />
-                            <p>Ngọc Sơn</p>
-                        </div> -->
                     </div>
                     <div class="log-out">
                         <button id="btn-logout">Logout</button>
@@ -47,14 +36,6 @@
                 </div>
                 
                 <div class="list" id="messages">
-                    <!-- <div class="message">
-                        <p>This is a generator for text fonts of the "cool" variety. I noticed people were trying to find a generator like fancy letters, but were ending up on actual font sites</p>
-                        <span>15:10</span>
-                    </div>
-                    <div class="message me">
-                        <p>This is a generator for text fonts of the "cool" variety.</p>
-                        <span>15:15</span>
-                    </div> -->
                 </div>
                 <div class="box">
                     <form>
@@ -90,6 +71,9 @@
                 </div>
             </div>
         </div>
+        <div class="videos">
+            <video id="self-view" autoplay></video>
+        </div>
     <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
     <!--===============================================================================================-->
@@ -99,7 +83,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
     <!--===============================================================================================-->
-    <script src="js/socket-chat.js"></script>    
+    <script src="js/socket-chat.js"></script>
     <script src="js/chat.js"></script>
     </body>
 </html>

@@ -5,7 +5,7 @@ let page = 1;
 
 $(document).ready(function() {
     localStorage.setItem('listUserToChat', '');
-    localStorage.setItem('listMembersToChat', '');
+    // localStorage.setItem('listMembersToChat', '');
     localStorage.setItem('roomId', '');
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
@@ -108,7 +108,7 @@ $(document).ready(function() {
 });
 
 async function loadRooms(accessToken, page = 1) {
-    const dataRooms = await axios.get(`https://chat-app-api.cleverapps.io/api/v1/rooms?page=${page}&limit=10`, {
+    const dataRooms = await axios.get(`http://localhost:3001/api/v1/rooms?page=${page}&limit=10`, {
         headers: {
             Authorization: `Bearer ${accessToken}`
         }
@@ -135,7 +135,7 @@ async function loadRooms(accessToken, page = 1) {
 }
 
 async function loadMessages(roomId, accessToken, lastMessageId = '', limit = 10) {
-    const dataMessages = await axios.get(`https://chat-app-api.cleverapps.io/api/v1/rooms/${roomId}?lastMessageId=${lastMessageId}&limit=${limit}`, {
+    const dataMessages = await axios.get(`http://localhost:3001/api/v1/rooms/${roomId}?lastMessageId=${lastMessageId}&limit=${limit}`, {
         headers: {
             Authorization: `Bearer ${accessToken}`
         }
@@ -179,6 +179,9 @@ async function loadMessages(roomId, accessToken, lastMessageId = '', limit = 10)
             <img src="./images/user.png" />
             <p>${roomName}</p>
             &nbsp;<small id='status-room' class="${statusUser === 'Online' ? 'text-success' : 'text-secondary'}">${statusUser}</small>
+            <button id="make-call" class="bg-white" ${statusUser === 'Online' ? '' : 'disabled'}>
+                <i class="fas fa-video ${statusUser === 'Online' ? 'text-primary' : 'text-secondary'}"></i>
+            </button>
         </div>
     `);
     if (!messages || messages.length === 0) {
@@ -190,7 +193,7 @@ async function loadMessages(roomId, accessToken, lastMessageId = '', limit = 10)
 }
 
 async function loadUsers(name, accessToken) {
-    const dataUsers = await axios.get(`https://chat-app-api.cleverapps.io/api/v1/users?page=${page}&limit=5&username=${name}`, {
+    const dataUsers = await axios.get(`http://localhost:3001/api/v1/users?page=${page}&limit=5&username=${name}`, {
         headers: {
             Authorization: `Bearer ${accessToken}`
         }
@@ -229,7 +232,7 @@ function clearUsers() {
 
 async function createRoom(accessToken, members) {
     try {
-        const dataRooms = await axios.post(`https://chat-app-api.cleverapps.io/api/v1/rooms`, {
+        const dataRooms = await axios.post(`http://localhost:3001/api/v1/rooms`, {
             members
         }, {
             headers: {

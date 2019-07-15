@@ -686,3 +686,19 @@ body {
 #list-users button {
   font-size: 1em;
 }
+
+#self-view.visible-video {
+  border: 5px solid blue;
+  display: block;
+  position: fixed;
+  top: 10%;
+  left: 27%;
+}
+
+.videos {
+  border: 5px solid red;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
